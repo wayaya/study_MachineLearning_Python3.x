@@ -19,8 +19,8 @@ class SVM:
 
 def cal_kernel_value(train_x, train_x_i, kernel_option):
     '''样本之间的核函数的值
-    input:  train_x(mat):训练样本
-            train_x_i(mat):第i个训练样本
+    input:  train_x(mat):训练样本 m行n列
+            train_x_i(mat):第i个训练样本 1行n列
             kernel_option(tuple):核函数的类型以及参数
     output: kernel_value(mat):样本之间的核函数的值
 
@@ -28,15 +28,17 @@ def cal_kernel_value(train_x, train_x_i, kernel_option):
     kernel_type = kernel_option[0]  # 核函数的类型，分为rbf和其他
     m = np.shape(train_x)[0]  # 样本的个数
 
-    kernel_value = np.mat(np.zeros((m, 1)))
+    kernel_value = np.mat(np.zeros((m, 1)))  # m行1列
 
     if kernel_type == 'rbf':  # rbf核函数  高斯核函数 Radial Basis Function Kernel
-        sigma = kernel_option[1]
+        sigma = kernel_option[1]  # 高斯核参数
+        # 防止分母为0
         if sigma == 0:
             sigma = 1.0
+        # 遍历所有样本
         for i in range(m):
-            diff = train_x[i, :] - train_x_i
-            kernel_value[i] = np.exp(diff * diff.T / (-2.0 * sigma ** 2))
+            diff = train_x[i, :] - train_x_i  # 做差 一行n列
+            kernel_value[i] = np.exp(diff * diff.T / (-2.0 * sigma ** 2))   # 核映射
     else:  # 不使用核函数 一般的线性核
         kernel_value = train_x * train_x_i.T
     return kernel_value
@@ -49,7 +51,8 @@ def calc_kernel(train_x, kernel_option):
     output: kernel_matrix(mat):样本的核函数的值
     '''
     m = np.shape(train_x)[0]  # 样本的个数
-    kernel_matrix = np.mat(np.zeros((m, m)))  # 初始化样本之间的核函数值
+    kernel_matrix = np.mat(np.zeros((m, m)))  # 初始化样本之间的核函数值 m行m列
+    # 遍历所有行
     for i in range(m):
         kernel_matrix[:, i] = cal_kernel_value(train_x, train_x[i, :], kernel_option)
     return kernel_matrix
