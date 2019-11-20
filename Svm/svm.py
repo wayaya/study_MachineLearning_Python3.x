@@ -111,7 +111,9 @@ def select_second_sample_j(svm, alpha_i, error_i):
 
 
 def choose_and_update(svm, alpha_i):
-    '''判断和选择两个alpha进行更新
+    ''' 
+    SMO方式求解 Sequential Minimal Optimization
+    判断和选择两个alpha进行更新
     input:  svm:SVM模型
             alpha_i(int):选择出的第一个变量
     '''
