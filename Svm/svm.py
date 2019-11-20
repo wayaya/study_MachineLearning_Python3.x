@@ -10,8 +10,8 @@ class SVM:
         self.C = C  # 惩罚参数
         self.toler = toler  # 迭代的终止条件之一
         self.n_samples = np.shape(dataSet)[0]  # 训练样本的个数
-        self.alphas = np.mat(np.zeros((self.n_samples, 1)))  # 拉格朗日乘子
-        self.b = 0
+        self.alphas = np.mat(np.zeros((self.n_samples, 1)))  # 拉格朗日乘子 n个样本则对应n个alpha参数
+        self.b = 0  # 截距
         self.error_tmp = np.mat(np.zeros((self.n_samples, 2)))  # 保存E的缓存
         self.kernel_opt = kernel_option  # 选用的核函数及其参数
         self.kernel_mat = calc_kernel(self.train_x, self.kernel_opt)  # 核函数的输出
