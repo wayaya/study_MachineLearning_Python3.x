@@ -6,7 +6,7 @@ import pickle
 class SVM:
     def __init__(self, dataSet, labels, C, toler, kernel_option):
         self.train_x = dataSet  # 训练特征
-        self.train_y = labels  # 训练标签
+        self.train_y = labels  # 训练标签 矩阵nx1
         self.C = C  # 惩罚参数
         self.toler = toler  # 迭代的终止条件之一
         self.n_samples = np.shape(dataSet)[0]  # 训练样本的个数
@@ -56,7 +56,9 @@ def calc_kernel(train_x, kernel_option):
 
 
 def cal_error(svm, alpha_k):
-    '''误差值的计算
+    '''
+    smo计算过程中的误差值E_i
+    误差值的计算
     input:  svm:SVM模型
             alpha_k(int):选择出的变量
     output: error_k(float):误差值
@@ -117,9 +119,9 @@ def choose_and_update(svm, alpha_i):
     input:  svm:SVM模型
             alpha_i(int):选择出的第一个变量
     '''
-    error_i = cal_error(svm, alpha_i)  # 计算第一个样本的E_i
+    error_i = cal_error(svm, alpha_i)  # 计算第一个样本的E_i smo的误差
 
-    # 判断选择出的第一个变量是否违反了KKT条件
+    # 判断选择出的第一个变量是否违反了KKT条件 karush-kuhn-Tucker
     if (svm.train_y[alpha_i] * error_i < -svm.toler) and (svm.alphas[alpha_i] < svm.C) or \
             (svm.train_y[alpha_i] * error_i > svm.toler) and (svm.alphas[alpha_i] > 0):
 
