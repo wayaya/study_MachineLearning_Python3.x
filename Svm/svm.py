@@ -63,6 +63,7 @@ def cal_error(svm, alpha_k):
             alpha_k(int):选择出的变量
     output: error_k(float):误差值
     '''
+    # np.multiply() 对应位置的数字相乘 
     output_k = float(np.multiply(svm.alphas, svm.train_y).T * svm.kernel_mat[:, alpha_k] + svm.b)
     error_k = output_k - float(svm.train_y[alpha_k])
     return error_k
