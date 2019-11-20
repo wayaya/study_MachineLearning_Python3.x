@@ -30,14 +30,14 @@ def cal_kernel_value(train_x, train_x_i, kernel_option):
 
     kernel_value = np.mat(np.zeros((m, 1)))
 
-    if kernel_type == 'rbf':  # rbf核函数
+    if kernel_type == 'rbf':  # rbf核函数  高斯核函数 Radial Basis Function Kernel
         sigma = kernel_option[1]
         if sigma == 0:
             sigma = 1.0
         for i in range(m):
             diff = train_x[i, :] - train_x_i
             kernel_value[i] = np.exp(diff * diff.T / (-2.0 * sigma ** 2))
-    else:  # 不使用核函数
+    else:  # 不使用核函数 一般的线性核
         kernel_value = train_x * train_x_i.T
     return kernel_value
 
