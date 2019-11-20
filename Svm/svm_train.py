@@ -49,7 +49,7 @@ if __name__ == "__main__":
     # 2、训练SVM模型
     print ("------------ 2、training ---------------")
     C = 0.6  # 松弛系数 系数越小margin越大
-    toler = 0.001
+    toler = 0.001  # 退出条件或终止条件
     maxIter = 500  # 迭代次数
     svm_model = svm.SVM_training(dataSet, labels, C, toler, maxIter)
     # 3、计算训练的准确性
