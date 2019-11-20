@@ -58,18 +58,19 @@ def calc_kernel(train_x, kernel_option):
     return kernel_matrix
 
 
-def cal_error(svm, alpha_k):
+def cal_error(svm, alpha_i):
     '''
     smo计算过程中的误差值E_i
     误差值的计算
     input:  svm:SVM模型
-            alpha_k(int):选择出的变量
+            alpha_k(int):选择出的变量 第k个样本
     output: error_k(float):误差值
     '''
     # np.multiply() 对应位置的数字相乘 
-    output_k = float(np.multiply(svm.alphas, svm.train_y).T * svm.kernel_mat[:, alpha_k] + svm.b)
-    error_k = output_k - float(svm.train_y[alpha_k])
-    return error_k
+    # 第k个样本的核映射内积
+    output_i = float(np.multiply(svm.alphas, svm.train_y).T * svm.kernel_mat[:, alpha_i] + svm.b)  # g(x)值
+    error_i = output_i - float(svm.train_y[alpha_i])  # E_i = g(x_i) -y(x_i)
+    return error_i
 
 
 def update_error_tmp(svm, alpha_k):
