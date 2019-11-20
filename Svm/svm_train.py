@@ -48,13 +48,13 @@ if __name__ == "__main__":
     dataSet, labels = load_data_libsvm("heart_scale")
     # 2、训练SVM模型
     print ("------------ 2、training ---------------")
-    C = 0.6
+    C = 0.6  # 松弛系数 系数越小margin越大
     toler = 0.001
-    maxIter = 500
+    maxIter = 500  # 迭代次数
     svm_model = svm.SVM_training(dataSet, labels, C, toler, maxIter)
     # 3、计算训练的准确性
     print ("------------ 3、cal accuracy --------------")
-    accuracy = svm.cal_accuracy(svm_model, dataSet, labels)  
+    accuracy = svm.cal_accuracy(svm_model, dataSet, labels)  # 准确度  
     print ("The training accuracy is: %.3f%%" % (accuracy * 100))
     # 4、保存最终的SVM模型
     print ("------------ 4、save model ----------------")
