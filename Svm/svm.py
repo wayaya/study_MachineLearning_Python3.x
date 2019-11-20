@@ -38,7 +38,7 @@ def cal_kernel_value(train_x, train_x_i, kernel_option):
         # 遍历所有样本
         for i in range(m):
             diff = train_x[i, :] - train_x_i  # 做差 一行n列
-            kernel_value[i] = np.exp(diff * diff.T / (-2.0 * sigma ** 2))   # 核映射
+            kernel_value[i] = np.exp(diff * diff.T / (-2.0 * sigma ** 2))   # 核映射 内积
     else:  # 不使用核函数 一般的线性核
         kernel_value = train_x * train_x_i.T
     return kernel_value
