@@ -7,8 +7,8 @@ class SVM:
     def __init__(self, dataSet, labels, C, toler, kernel_option):
         self.train_x = dataSet  # 训练特征
         self.train_y = labels  # 训练标签 矩阵nx1
-        self.C = C  # 惩罚参数
-        self.toler = toler  # 迭代的终止条件之一
+        self.C = C  # 惩罚参数 松弛因子
+        self.toler = toler  # 迭代的终止条件之一，容忍误差参数
         self.n_samples = np.shape(dataSet)[0]  # 训练样本的个数
         self.alphas = np.mat(np.zeros((self.n_samples, 1)))  # 拉格朗日乘子 n个样本则对应n个alpha参数
         self.b = 0  # 截距
@@ -127,6 +127,13 @@ def choose_and_update(svm, alpha_i):
     error_i = cal_error(svm, alpha_i)  # 计算第一个样本的E_i smo的误差
 
     # 判断选择出的第一个变量是否违反了KKT条件 karush-kuhn-Tucker
+    # 误差是否在容忍范围内且alpha满足  0<alpha<C C是松弛因子
+    # KKT条件
+    # α_i=0 ⇔ y_i * g(x_i) ≥ 1 
+    # 0<α_i<C ⇔ y_i * g(x_i) = 1
+    # α_i=C ⇔ y)i * g(x_i) ≤ 1
+    # 其中 g(x_i)=∑^{N}_{j=1}α_j*y_jK(x_,x_j)+b
+    # 第一个点选择的是违反KKT条件的点 y_i * E_i < - \delta 由于E_i = g(x_i) - y_i, y_i * y_i =1  变换后等价于 y_i * g(x_i) < 1 - \delta
     if (svm.train_y[alpha_i] * error_i < -svm.toler) and (svm.alphas[alpha_i] < svm.C) or \
             (svm.train_y[alpha_i] * error_i > svm.toler) and (svm.alphas[alpha_i] > 0):
 
